@@ -6,15 +6,23 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80') no-repeat center center;
-      background-size: cover;
+      margin: 0;
+      background: #0e0e0e;
+      overflow: hidden;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
     }
   </style>
 </head>
-<body class="text-white h-screen flex items-center justify-center backdrop-blur-md bg-black/40">
-  <div class="bg-black/60 p-8 rounded-2xl max-w-xl text-center shadow-2xl">
+<body class="text-white h-screen flex items-center justify-center bg-black/40 relative">
+  <canvas id="rainCanvas"></canvas>  <div class="bg-black/60 p-8 rounded-2xl max-w-xl text-center shadow-2xl relative z-10">
     <h1 class="text-4xl font-bold mb-4">🌂 在线雨伞</h1>
-    <p class="mb-6 text-lg">下雨了吗？没关系，我们在你身边。点一下下面的按钮，撑起你的专属雨伞。</p><button onclick="openUmbrella()" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-full text-lg transition-all">撑起雨伞</button>
+    <p class="mb-6 text-lg">下雨了吗？没关系，我们在你身边。点一下下面的按钮，撑起你的专属雨伞。</p><button id="umbrellaButton" onclick="openUmbrella()" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-full text-lg transition-all">撑起雨伞</button>
 
 <div id="umbrellaMessage" class="mt-6 text-xl hidden">
   ☔ 雨滴在伞面上跳舞，而你，始终有人为你撑伞。
@@ -23,8 +31,68 @@
   </div>  <script>
     function openUmbrella() {
       document.getElementById("umbrellaMessage").classList.remove("hidden");
+      const button = document.getElementById("umbrellaButton");
+      button.textContent = "已撑伞";
+      button.disabled = true;
+      button.classList.add("bg-gray-500", "hover:bg-gray-500");
+
       const audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
       audio.play();
     }
+
+    // 动态雨滴特效
+    const canvas = document.getElementById("rainCanvas");
+    const ctx = canvas.getContext("2d");
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    let drops = [];
+    for (let i = 0; i < 300; i++) {
+      drops.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        l: Math.random() * 20 + 10,
+        xs: 0,
+        ys: Math.random() * 10 + 10
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.strokeStyle = 'rgba(174,194,224,0.5)';
+      ctx.lineWidth = 1;
+      ctx.lineCap = 'round';
+
+      for (let i = 0; i < drops.length; i++) {
+        let d = drops[i];
+        ctx.beginPath();
+        ctx.moveTo(d.x, d.y);
+        ctx.lineTo(d.x + d.xs, d.y + d.l);
+        ctx.stroke();
+      }
+      move();
+    }
+
+    function move() {
+      for (let i = 0; i < drops.length; i++) {
+        let d = drops[i];
+        d.y += d.ys;
+        if (d.y > height) {
+          d.y = -20;
+          d.x = Math.random() * width;
+        }
+      }
+    }
+
+    function animateRain() {
+      draw();
+      requestAnimationFrame(animateRain);
+    }
+
+    animateRain();
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
   </script></body>
 </html>

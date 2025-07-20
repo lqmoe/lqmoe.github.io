@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>在线雨伞 Online Umbrella</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80') no-repeat center center;
+      background-size: cover;
+    }
+  </style>
+</head>
+<body class="text-white h-screen flex items-center justify-center backdrop-blur-md bg-black/40">
+  <div class="bg-black/60 p-8 rounded-2xl max-w-xl text-center shadow-2xl">
+    <h1 class="text-4xl font-bold mb-4">🌂 在线雨伞</h1>
+    <p class="mb-6 text-lg">下雨了吗？没关系，我们在你身边。点一下下面的按钮，撑起你的专属雨伞。</p><button onclick="openUmbrella()" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-full text-lg transition-all">撑起雨伞</button>
+
+<div id="umbrellaMessage" class="mt-6 text-xl hidden">
+  ☔ 雨滴在伞面上跳舞，而你，始终有人为你撑伞。
+</div>
+
+  </div>  <script>
+    function openUmbrella() {
+      document.getElementById("umbrellaMessage").classList.remove("hidden");
+      const audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+      audio.play();
+    }
+  </script></body>
+</html>

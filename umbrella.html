@@ -17,9 +17,13 @@
       pointer-events: none;
       z-index: 0;
     }
+    .umbrella-background {
+      background: url('https://cdn.pixabay.com/photo/2016/11/22/23/55/umbrella-1853552_1280.jpg') no-repeat center center;
+      background-size: cover;
+    }
   </style>
 </head>
-<body class="text-white h-screen flex items-center justify-center bg-black/40 relative">
+<body id="mainBody" class="text-white h-screen flex items-center justify-center bg-black/40 relative transition-all duration-1000">
   <canvas id="rainCanvas"></canvas>  <div class="bg-black/60 p-8 rounded-2xl max-w-xl text-center shadow-2xl relative z-10">
     <h1 class="text-4xl font-bold mb-4">🌂 在线雨伞</h1>
     <p class="mb-6 text-lg">下雨了吗？没关系，我们在你身边。点一下下面的按钮，撑起你的专属雨伞。</p><button id="umbrellaButton" onclick="openUmbrella()" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-full text-lg transition-all">撑起雨伞</button>
@@ -35,6 +39,8 @@
       button.textContent = "已撑伞";
       button.disabled = true;
       button.classList.add("bg-gray-500", "hover:bg-gray-500");
+
+      document.getElementById("mainBody").classList.add("umbrella-background");
 
       const audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
       audio.play();
